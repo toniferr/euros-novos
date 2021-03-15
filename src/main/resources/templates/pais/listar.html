@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="#{text.pais.titulo.tabla}"></div>
+			<div class="card-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Puesto</th>							
+							<th th:text="#{text.pais.pais}">pais</th>
+							<th> </th>
+							<th> </th>
+							<th th:text="#{text.pais.artista}+' - '+#{text.pais.cancion}">artista</th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="pais: ${paises}">
+						    <td th:text="${pais.puesto}" th:if="${pais.enabled == true}"></td>
+						    <td th:text="#{text.pais.no.clasificado}" th:if="${pais.enabled != true}" th:class="${pais.enabled != true} ? filadesactivada"></td>
+						    <td th:text="${pais.nombre}"  th:class="${pais.enabled != true} ? filadesactivada"></td>
+							<td  th:class="${pais.enabled != true} ? filadesactivada"><img th:if="${#strings.length(pais.bandera) > 0}"
+									th:src="@{'/pais/upload/' + ${pais.bandera}}" th:alt="${pais.bandera}" style="margin-right:20px; width:55px; height: 35px;"/>
+							</td>
+							<td  th:class="${pais.enabled != true} ? filadesactivada"><a th:href="@{__${pais.enlace}__}" th:text="#{text.pais.ver.mirar}" target="_blank"></a></td>
+							<td th:text="${pais.artista}+' - '+${pais.cancion}"  th:class="${pais.enabled != true} ? filadesactivada"></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"  th:class="${pais.enabled != true} ? filadesactivada"><a
+								class="btn btn-warning btn-xs"
+								th:href="@{/pais/ver/} + ${pais.id}">Modificar</a></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

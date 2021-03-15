@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<form th:action="@{/usuario/apostar}" th:object="${usuario}"
+			method="post" enctype="multipart/form-data">
+			<div class="card bg-dark text-white">
+				<div class="card-header" th:text="#{text.apuesta.titulo}">
+				<div id="getting-started" class="contadorApuesta"></div>Haz tu apuesta</div>
+				<div class="card-body">
+
+					<div th:object="${usuario}" th:remove="tag">
+						<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger"
+							role="alert">
+							<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+						</ul>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-md-4" style="text-align: center;">
+							<div id="img0">
+								<img class="rounded-circle m-2"
+									th:if="${#lists.size(usuario.paises) > 0}"
+									th:src="@{'/pais/upload/' + ${usuario.paises[0].bandera}}"
+									th:alt="${usuario.paises[0].bandera}"
+									style="width: 160px; height: 140px;" />
+								<input type="hidden"
+									th:name="img0" th:value="${usuario.paises[0].id}"
+									th:if="${#lists.size(usuario.paises) > 0}" /> 
+								<img
+									class="rounded-circle m-2"
+									th:if="${#lists.size(usuario.paises) < 1}"
+									th:src="@{'/pais/upload/vacio.png'}"
+									style="width: 160px; height: 140px;" />
+								<label
+								th:text="${usuario.paises[0].nombre}"
+								th:if="${#lists.size(usuario.paises) > 1}"></label> 
+							</div>
+						</div>
+						<div class="col-md-4" style="text-align: center;">
+							<img id="img1" class="rounded-circle m-2"
+								th:if="${#lists.size(usuario.paises) > 1}"
+								th:src="@{'/pais/upload/' + ${usuario.paises[1].bandera}}"
+								th:alt="${usuario.paises[1].bandera}"
+								style="width: 160px; height: 140px;" /> 
+							<input type="hidden"
+								th:name="img1" th:value="${usuario.paises[1].id}"
+								th:if="${#lists.size(usuario.paises) > 1}" />
+							<img id="img1" class="rounded-circle m-2"
+								th:if="${#lists.size(usuario.paises) < 2}"
+								th:src="@{'/pais/upload/vacio.png'}"
+								style="width: 160px; height: 140px;" />
+							<label
+								th:text="${usuario.paises[1].nombre}"
+								th:if="${#lists.size(usuario.paises) > 1}"></label> 
+						</div>
+						<div class="col-md-4" style="text-align: center;">
+								<img id="img2" class="rounded-circle m-2"
+									th:if="${#lists.size(usuario.paises) > 2}"
+									th:src="@{'/pais/upload/' + ${usuario.paises[2].bandera}}"
+									th:alt="${usuario.paises[2].bandera}"
+									style="width: 160px; height: 140px;" /> 
+								<input type="hidden"
+									th:name="img2" th:value="${usuario.paises[2].id}"
+									th:if="${#lists.size(usuario.paises) > 2}" /> 
+								<img id="img2"
+									class="rounded-circle m-2"
+									th:if="${#lists.size(usuario.paises) < 3}"
+									th:src="@{'/pais/upload/vacio.png'}"
+									style="width: 160px; height: 140px;" />
+								<label
+								th:text="${usuario.paises[2].nombre}"
+								th:if="${#lists.size(usuario.paises) > 2}"></label> 
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div th:if="${permiteApostar}" class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<table class="table table-striped">
+						<tbody th:with="colCount=${5}">
+							<tr
+								th:each="r : ${#numbers.sequence(0, paisesElegir.size(), colCount)}"
+								class="row">
+								<td th:each="c : ${#numbers.sequence(0, colCount - 1)}"
+									th:if="${r + c &lt; paisesElegir.size()}">
+									<form th:action="@{'/usuario/apostar'}" method='post'>
+										<input type="hidden" name='paisSustituido' value='' /> <input
+											type="hidden" name='usuarioId' th:value="${usuario.id}" /> <input
+											type="hidden" name='paisASustituir'
+											th:value="${paisesElegir[r+c].id}" /> <input type="image"
+											th:src="@{'/pais/upload/' + ${paisesElegir[r+c].bandera}}"
+											th:alt="${paisesElegir[r+c].bandera}" class="imagen" />
+									</form>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+
+	<footer th:replace="layout/layout :: footer"> </footer>
+</body>
+</html>

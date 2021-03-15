@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+		<form th:action="@{/configuracion/modificar}" th:object="${configuracion}" method="post"
+			enctype="multipart/form-data">
+			<div class="card bg-dark text-white">
+				<div class="card-header" th:text="#{text.configuracion.form.titulo}">		
+				</div>
+				<div class="card-body">
+
+					<div th:object="${configuracion}" th:remove="tag">
+						<ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger"
+							role="alert">
+							<li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+						</ul>
+					</div>
+
+					<input type="hidden" th:field="*{id}" />
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label" th:text="#{text.configuracion.form.nombre}">Nombre</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{nombre}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label" th:text="#{text.configuracion.form.descripcion}">Descripcion</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{descripcion}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label" th:text="#{text.configuracion.form.codigo}">Codigo</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{codigo}" class="form-control"
+								th:errorclass="'form-control alert-danger'" /> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('codigo')}" th:errors="*{codigo}"></small>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label" th:text="#{text.configuracion.form.valor}">Valor</label>
+						<div class="col-sm-6">
+							<input type="text" th:field="*{valor}" class="form-control"/> <small
+								class="form-text text-danger"
+								th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></small>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<input id='guardarConfiguracion' type="submit" value="Guardar" class="btn btn-success"/>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

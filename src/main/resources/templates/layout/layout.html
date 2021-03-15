@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head">
+<meta charset="UTF-8" />
+<title th:text="${titulo}">Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}" />
+<link rel="stylesheet" th:href="@{/css/custom.css}" />
+</head>
+<body>
+	<header th:fragment="header">
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+			<a class="navbar-brand" th:href="@{/}">Euros Novos</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				aria-label="Toggle navigation" data-target="#menuPrincipal">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div id="menuPrincipal" class="collapse navbar-collapse">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="#about"
+						th:href="@{/pais/listarCanciones}" th:text="#{global.concursantes.paises}">Canciones</a></li>
+					<li class="nav-item"><a class="nav-link" href="#about"
+						th:href="@{/usuario/listarMiApuesta}" th:text="#{global.mis.votos}">Mis votos</a></li>
+					<li class="nav-item"><a class="nav-link" href="#about"
+						th:href="@{/usuario/listarClasificacion}" th:text="#{global.clasificacion}">Clasificación</a></li>
+				</ul>
+
+				<ul class="navbar-nav navbar-right mx-4">
+					<li> <div id="getting-started" class="contadorApuesta"></div> </li>
+					<li class="nav-item mx-1"><a class="btn btn-outline-light"
+						th:href="@{/locale(lang=es_ES)}">ES</a></li>
+					<li class="nav-item mx-1"><a class="btn btn-outline-light"
+						th:href="@{/locale(lang=gl_GL)}">GL</a></li>
+					<li sec:authorize="isAuthenticated() and hasRole('ROLE_ADMIN')"><a
+						class="btn btn-light" th:href="@{/configuracion/listar}">Parámetros</a></li>
+					<li sec:authorize="!isAuthenticated()"><a
+						class="btn btn-light" th:href="@{/login}">Inicio
+							sesion</a></li>
+					<li sec:authorize="isAuthenticated()" >
+						<a class="btn btn-outline-warning mx-1"
+						th:href="@{|/usuario/ver/${#authentication.name}|}"
+						><span sec:authentication="name"></span></a>						
+					</li>
+
+				</ul>
+				<ul class="navbar-nav navbar-right">
+					<li sec:authorize="isAuthenticated()" class="nav-item dropdown show mx-2">
+							<form th:action="@{/logout}" method="post">
+								<button class="btn btn-danger"
+									onclick="document.getElementById('logoutForm').submit();"
+									type="submit" th:text="#{global.text.salir}"><i class="glyphicon glyphicon-off"></i></button>
+							</form>	
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+	</header>
+
+	<div class="container"></div>
+	<footer th:fragment="footer" class="container  text-center">
+		<hr />
+		<p>
+			EUROS NOVOS v.01.00
+		</p>
+		<p>Antonio Ferreiro &copy; Company 2019</p>
+		<!--  Optional JavaScript -->
+		<!--  jQuery first, then Bootstrap JS -->
+		<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+		<script th:src="@{/js/popper.min.js}"></script>
+		<!-- slim no tiene AJAX -->
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"></script>
+		<script th:src="@{/js/custom.js}"></script>
+		<script th:inline="javascript">var contextPath = /*[[@{/}]]*/'';</script>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4 ">
+		<div class="card-border-primary text-center">
+			<div class="jumbotron">
+				<h2 th:text="#{global.inicio.titulo}"></h2>
+				<p th:text="#{global.inicio.texto}"></p>
+				<p>
+					<a th:href="@{/pais/listarCanciones}" class="btn btn-dark btn-lg"
+						role="button" th:text="#{global.concursantes.paises}">Learn
+						more &raquo;</a> <a th:href="@{/usuario/listarMiApuesta}"
+						class="btn btn-dark btn-lg" role="button"
+						th:text="#{global.mis.votos}">Learn more &raquo;</a> <a
+						th:href="@{/usuario/listarClasificacion}"
+						class="btn btn-dark btn-lg" role="button"
+						th:text="#{global.clasificacion}">Learn more &raquo;</a>
+				</p>
+				<div class="text-left py-5">
+					<p>
+					<h3 th:text="#{global.inicio.titulo.reglas}"></h3>
+					</p>
+					<p>
+					<h4 th:text="#{global.inicio.regla1}"></h4>
+					</p>
+					<p>
+					<h4 th:text="#{global.inicio.regla2}"></h4>
+					</p>
+					<p>
+					<h4 th:text="#{global.inicio.regla3}"></h4>
+					</p>
+					<p>
+					<h4 th:text="#{global.inicio.regla4}"></h4>
+					</p>
+					<p>
+					<h4 th:text="#{global.inicio.regla5}"></h4>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="#{text.usuario.titulo.tabla}"></div>
+			<div class="card-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+						    <th></th>
+							<th th:text="#{text.usuario.nombre}">nombre</th>
+							<th th:text="#{text.usuario.paises}">paises</th>
+							<th th:text="#{text.usuario.puntos}">puntos</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="usuario, iterationStatus: ${usuarios}">
+							<td th:text="${iterationStatus.count}"></td>
+							<td th:text="${usuario.nombre} + ' ' + ${usuario.apellidos}"> </td>
+							<td>
+								<div class="row" th:if="${muestraApuesta}">
+									<div class="col-md-2" th:each="pais: ${usuario.paises}">
+									<img th:if="${#strings.length(pais.bandera) > 0}"
+										th:src="@{'/pais/upload/' + ${pais.bandera}}" th:alt="${pais.bandera}" style="width:55px; height: 35px;"/>
+									</div>
+								</div>	
+								<div th:if="${#lists.isEmpty(usuario.paises) and muestraApuesta}" th:text="#{text.usuario.no.voto}">No has elegido pais el todavía</div>							
+								<div th:unless="${muestraApuesta}" th:text="#{text.usuario.no.muestra}">Las apuestas se mostrarán el sabado despues de las actuaciones</div>
+							</td>
+							<td th:text="${usuario.puntos}"></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

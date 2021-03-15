@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmls:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/layout :: head">
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="#{text.configuracion.titulo.tabla}"></div>
+			<div class="card-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>						
+							<th th:text="#{text.configuracion.nombre}">nombre</th>
+							<th th:text="#{text.configuracion.descripcion}">descripcion</th>
+							<th th:text="#{text.configuracion.codigo}">codigo</th>
+							<th th:text="#{text.configuracion.valor}">valor</th>
+							<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="configuracion: ${configuraciones}">
+						    <td th:text="${configuracion.nombre}"></td>
+						    <td th:text="${configuracion.descripcion}"></td>
+						    <td th:text="${configuracion.codigo}"></td>
+						    <td th:text="${configuracion.valor}"></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+								class="btn btn-warning btn-xs"
+								th:href="@{/configuracion/ver/} + ${configuracion.id}">Modificar</a></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
